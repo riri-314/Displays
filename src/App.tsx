@@ -57,7 +57,7 @@ const App = () => {
           width: "100%",
         }}
       >
-        <h1>Displays Test 3</h1>
+        <h1>Displays Test 4</h1>
       </Header>
       <Content>
         <div
