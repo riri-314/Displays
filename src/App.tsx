@@ -3,7 +3,7 @@ import { Suspense, lazy } from "react";
 
 import Display from "./pages/display";
 import Login from "./pages/Login";
-const Settings = lazy(() => import("./pages/settings"));
+const Settings = lazy(() => import("./pages/Settings"));
 const NotFound = lazy(() => import("./pages/404"));
 
 
@@ -14,7 +14,7 @@ function App() {
         <Suspense fallback={<p> Loading resource from server...</p>}>
           <Routes>
             <Route path="/" element={<Settings />} />
-            <Route path="/display" element={<Display />} />
+            <Route path="/displays/:number" element={<Display/>} />
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
