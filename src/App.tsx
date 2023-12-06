@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Im
 import { Suspense, lazy } from "react";
 
 import Display from "./pages/display";
+import Login from "./pages/Login";
 const Settings = lazy(() => import("./pages/settings"));
 const NotFound = lazy(() => import("./pages/404"));
 
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Settings />} />
             <Route path="/display" element={<Display />} />
+            <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

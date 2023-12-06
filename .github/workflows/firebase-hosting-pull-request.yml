@@ -7,6 +7,17 @@ jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
+    
+    env:
+      VITE_apiKey: '${{ secrets.VITE_apiKey }}'
+      VITE_authDomain: '${{ secrets.VITE_authDomain }}'
+      VITE_databaseURL: '${{ secrets.VITE_databaseURL }}'
+      VITE_projectId: '${{ secrets.VITE_projectId }}'
+      VITE_storageBucket: '${{ secrets.VITE_storageBucket }}'
+      VITE_messagingSenderId: '${{ secrets.VITE_messagingSenderId }}'
+      VITE_appId: '${{ secrets.VITE_appId }}'
+      VITE_measurementId: '${{ secrets.VITE_measurementId }}'
+
     steps:
       - uses: actions/checkout@v3
       - run: npm ci && npm run build
