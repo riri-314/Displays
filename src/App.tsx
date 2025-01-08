@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Im
 import { Suspense, lazy } from "react";
 
 import Display from "./pages/display";
-import Login from "./pages/Login";
+//import Login from "./pages/Login";
+const Login = lazy(() => import("./pages/Login"));
 const Settings = lazy(() => import("./pages/Settings"));
 const NotFound = lazy(() => import("./pages/404"));
 

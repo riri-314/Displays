@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 import { rt_db } from "../firebase-config";
 import { ref, onValue } from "firebase/database";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 export default function Display() {
   const { number } = useParams();
-  const num = "displays/"+number
+  const num = "displays/" + number;
 
-  //const [mode, setMode] = useState("1"); //set this based on the server info
-  const [textMessage, setTextMessage] = useState("Not connected to db"); //set this based on the server info
-  const [color, setColor] = useState("blue"); //set this based on the server info
-
+  const [serverData, setServerData] = useState([
+    "1",
+    "blue",
+    "Not connected to db",
+  ]);
 
   const mainStyle = {
     width: "1280px",
     height: "1024px",
-    backgroundColor: color,
+    backgroundColor: serverData[1],
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -26,13 +27,15 @@ export default function Display() {
     const starCountRef = ref(rt_db, num);
     const unsubscribe = onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
-      //const mode = data.mode;
+      const mode = data.mode;
       const color = data.color;
       const message = data.message;
-      //setMode(mode);
-      setColor(color);
-      setTextMessage(message);
-      //console.log("Message from server:", data);
+      setServerData([mode, color, message]);
+      
+      const mainElement = document.getElementById("main");
+      if (mainElement) {
+        mainElement.style.transform = "rotate(180deg)";
+      }
     });
 
     return () => {
@@ -40,8 +43,23 @@ export default function Display() {
     };
   }, []);
 
+  // Check if the wakeLock API is supported
+  if ("wakeLock" in navigator) {
+    // Request a screen wake lock
+    navigator.wakeLock
+      .request("screen")
+      .then(() => {
+        console.log("Screen wake lock acquired");
+      })
+      .catch((err) => {
+        console.error(`Failed to acquire screen wake lock: ${err}`);
+      });
+  } else {
+    console.warn("Wake lock API is not supported");
+  }
+
   return (
-    <div style={{rotate:"180deg"}}>
+    <div>
       <main id="main" style={mainStyle}>
         <div
           style={{
@@ -49,7 +67,7 @@ export default function Display() {
             textAlign: "center",
           }}
         >
-          {textMessage}
+          {serverData[2]}
         </div>
       </main>
     </div>
